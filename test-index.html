@@ -471,9 +471,9 @@
       
       sortedParties.forEach(([partyName, percentage]) => {
         const partyId = partyName.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
-        // Verwende den JSON-Key für Logo-Pfad
+        // Verwende den JSON-Key für Logo-Pfad (in Kleinbuchstaben)
         const partyKey = window.partyKeys[partyName];
-        const logoPath = partyKey + '.png';
+        const logoPath = partyKey.toLowerCase() + '.png';
         resultsHTML += `
           <div class="party-result">
             <div class="party-name">

@@ -446,9 +446,9 @@
       
       sortedParties.forEach(([partyName, percentage]) => {
         const partyId = partyName.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
-        // Verwende den JSON-Key für Logo-Pfad
+        // Verwende den JSON-Key für Logo-Pfad (in Kleinbuchstaben)
         const partyKey = window.partyKeys[partyName];
-        const logoPath = partyKey + '.png';
+        const logoPath = partyKey.toLowerCase() + '.png';
         resultsHTML += `
           <div class="party-result">
             <div class="party-name">
@@ -481,14 +481,26 @@
         if (answers[i] !== null) {
           const userAnswer = answers[i];
           const partyPosition = parties[partyName][i];
-          const isMatch = userAnswer === partyPosition || 
-                         (userAnswer === "neutral" || partyPosition === "neutral");
+          
+          // Match-Logik für Details mit Farben
+          let matchColor = '';
+          
+          if (userAnswer === partyPosition) {
+            // Volle Übereinstimmung = grün
+            matchColor = '#4CAF50';
+          } else if (userAnswer === 'neutral' || partyPosition === 'neutral') {
+            // Teilweise Übereinstimmung = gelb
+            matchColor = '#FFC107';
+          } else {
+            // Keine Übereinstimmung = rot
+            matchColor = '#F44336';
+          }
           
           detailsHTML += `
             <div class="question-detail">
               <div class="question-text">${i + 1}. ${questions[i]}</div>
               <div>
-                <span class="user-answer" style="background: ${isMatch ? '#e8f5e8' : '#ffe8e8'};">
+                <span class="user-answer" style="background: ${matchColor}; color: white; font-size: 0.75rem;">
                   Sie: ${getAnswerText(userAnswer)}
                 </span>
                 <span class="position-badge position-${partyPosition}">
