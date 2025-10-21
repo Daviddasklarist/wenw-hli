@@ -41,31 +41,50 @@
       color: white;
       font-size: 1.3rem;
       margin-bottom: 1.5rem;
-      line-height: 1.4;
     }
 
     .buttons {
       display: flex;
       justify-content: space-between;
-      gap: 15px;
-      margin: 2rem 0;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     button {
       flex: 1;
       border: 2px solid #333;
       border-radius: 8px;
-      padding: 1.2rem 1rem;
+      padding: 1rem;
       cursor: pointer;
       font-size: 1rem;
+      transition: all 0.2s;
+    }
+
+    .buttons button:nth-child(1) {
       background: white;
       color: black;
-      min-height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      line-height: 1.3;
+    }
+
+    .buttons button:nth-child(1):hover {
+      background: #f0f0f0;
+    }
+
+    .buttons button:nth-child(2) {
+      background: white;
+      color: black;
+    }
+
+    .buttons button:nth-child(2):hover {
+      background: #f0f0f0;
+    }
+
+    .buttons button:nth-child(3) {
+      background: white;
+      color: black;
+    }
+
+    .buttons button:nth-child(3):hover {
+      background: #f0f0f0;
     }
 
     .buttons button.selected {
@@ -77,16 +96,12 @@
     .nav-buttons {
       display: flex;
       justify-content: space-between;
-      gap: 15px;
-      margin-top: 2rem;
+      margin-top: 1.5rem;
     }
 
     .nav-buttons button {
-      flex: 1;
       background: black;
       color: white;
-      font-size: 1rem;
-      min-height: 50px;
     }
 
     .nav-buttons button:hover {
@@ -106,18 +121,39 @@
       padding: 1rem;
       border-radius: 8px;
       border: 2px solid #333;
+      width: 100%;
+      max-width: 600px;
+      box-sizing: border-box;
     }
 
     .party-name {
       font-weight: bold;
       color: black;
       margin-bottom: 0.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      width: 100%;
+      font-size: 1.1rem;
+    }
+
+    .party-name span {
+      flex: 1;
+      line-height: 1.3;
+      word-wrap: break-word;
+      min-width: 0;
+    }
+
+    .party-logo {
+      height: 70px;
+      width: auto;
+      object-fit: contain;
     }
 
     .progress-bar {
       background: #ddd;
       border-radius: 10px;
-      height: 20px;
+      height: 35px;
       overflow: hidden;
       margin-bottom: 0.5rem;
     }
@@ -131,18 +167,23 @@
       justify-content: center;
       color: white;
       font-weight: bold;
-      font-size: 0.9rem;
+      font-size: 1.1rem;
     }
 
     .details-button {
       background: #333;
       color: white;
       border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
+      padding: 0.4rem 0.7rem;
+      border-radius: 4px;
       cursor: pointer;
       font-size: 0.9rem;
       margin-left: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      flex-shrink: 0;
+      align-self: flex-start;
     }
 
     .details-button:hover {
@@ -156,15 +197,18 @@
       padding: 1rem;
       border-radius: 8px;
       color: black;
+      height: 350px;
+      overflow-y: auto;
+      box-sizing: border-box;
+      width: 100%;
     }
 
     .question-detail {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 0;
+      padding: 0.5rem 0;
       border-bottom: 1px solid #ddd;
-      min-height: 60px;
     }
 
     .question-detail:last-child {
@@ -174,26 +218,14 @@
     .question-text {
       flex: 1;
       font-size: 0.9rem;
-      line-height: 1.3;
-      margin-right: 1rem;
     }
 
-    .answer-badges {
-      display: flex;
-      gap: 0.8rem;
-      align-items: center;
-      flex-shrink: 0;
-    }
-
-    .position-badge, .user-answer {
-      padding: 0.4rem 0.8rem;
+    .position-badge {
+      padding: 0.3rem 0.6rem;
       border-radius: 15px;
       font-size: 0.8rem;
       font-weight: bold;
-      white-space: nowrap;
-      min-width: 100px;
-      text-align: center;
-      display: inline-block;
+      margin-left: 1rem;
     }
 
     .position-agree {
@@ -212,27 +244,12 @@
     }
 
     .user-answer {
+      padding: 0.3rem 0.6rem;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      margin-right: 0.5rem;
       border: 2px solid #333;
-      background: white;
-      color: black;
-    }
-
-    .user-answer.user-agree {
-      background: #4CAF50;
-      color: white;
-      border: 2px solid #4CAF50;
-    }
-
-    .user-answer.user-neutral {
-      background: #FFC107;
-      color: black;
-      border: 2px solid #FFC107;
-    }
-
-    .user-answer.user-disagree {
-      background: #F44336;
-      color: white;
-      border: 2px solid #F44336;
     }
   </style>
 </head>
@@ -244,17 +261,44 @@
   </header>
 
   <main>
-    <h2 id="question"></h2>
-
-    <div class="buttons">
-      <button onclick="answer('agree')" ondblclick="answerAndNext('agree')">Stimme zu</button>
-      <button onclick="answer('neutral')" ondblclick="answerAndNext('neutral')">Enthaltung</button>
-      <button onclick="answer('disagree')" ondblclick="answerAndNext('disagree')">Stimme nicht zu</button>
+    <div id="intro-screen">
+      <h2>Willkommen zum Wenwähli</h2>
+      <div style="text-align: left; max-width: 450px; margin: 0 auto; line-height: 1.5;">
+        <p style="color: white; margin-bottom: 1.5rem; font-size: 1.1rem;">
+          Finden Sie heraus, welche Parteien ähnliche Positionen vertreten wie Sie.
+        </p>
+        
+        <p style="color: white; margin-bottom: 1.5rem;">
+          <strong><span id="question-count">30</span> Fragen</strong> zu politischen Themen.<br>
+          Antworten Sie mit "Stimme zu", "Enthaltung" oder "Stimme nicht zu".
+        </p>
+        
+        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px; margin-bottom: 2rem;">
+          <p style="color: white; margin: 0; font-size: 0.9rem;">
+            <strong>Hinweis:</strong> Dies ist keine Wahlempfehlung, sondern eine Hilfestellung. 
+            Informieren Sie sich zusätzlich über die Parteiprogramme.
+          </p>
+        </div>
+      </div>
+      
+      <button onclick="startQuestions()" style="background: black; color: white; font-size: 1.1rem; padding: 1rem 2rem;">
+        Jetzt starten
+      </button>
     </div>
 
-    <div class="nav-buttons">
-      <button onclick="previousQuestion()">← Zurück</button>
-      <button onclick="nextQuestion()">Weiter →</button>
+    <div id="question-screen" style="display: none;">
+      <h2 id="question"></h2>
+
+      <div class="buttons">
+        <button onclick="answer('agree')">Stimme zu</button>
+        <button onclick="answer('neutral')">Enthaltung</button>
+        <button onclick="answer('disagree')">Stimme nicht zu</button>
+      </div>
+
+      <div class="nav-buttons">
+        <button onclick="previousQuestion()">← Zurück</button>
+        <button onclick="nextQuestion()">Weiter →</button>
+      </div>
     </div>
 
   </main>
@@ -280,17 +324,25 @@
         const parteienResponse = await fetch('parteien.json');
         const parteienData = await parteienResponse.json();
         
-        // Konvertiere Parteien-Format
+        // Konvertiere Parteien-Format und behalte Keys
         parties = {};
+        const partyKeys = {};
         Object.keys(parteienData).forEach(key => {
-          parties[parteienData[key].name] = parteienData[key].positionen;
+          const displayName = parteienData[key].name;
+          parties[displayName] = parteienData[key].positionen;
+          partyKeys[displayName] = key; // Speichere Key für Logo-Pfad
         });
+        
+        // Speichere Keys global für Logo-Zugriff
+        window.partyKeys = partyKeys;
         
         // Initialisiere Antworten-Array
         answers = new Array(questions.length).fill(null);
         
-        // Starte Wahlhilfe
-        showQuestion();
+        // Zeige Anzahl der Fragen im Intro
+        document.getElementById('question-count').textContent = questions.length;
+        
+        // Zeige Intro-Screen (nicht automatisch starten)
         
       } catch (error) {
         console.error('Fehler beim Laden der Daten:', error);
@@ -306,8 +358,14 @@
           "GRÜNE": ["agree", "agree", "agree"]
         };
         answers = new Array(questions.length).fill(null);
-        showQuestion();
+        document.getElementById('question-count').textContent = questions.length;
       }
+    }
+
+    function startQuestions() {
+      document.getElementById('intro-screen').style.display = 'none';
+      document.getElementById('question-screen').style.display = 'block';
+      showQuestion();
     }
 
     function showQuestion() {
@@ -335,30 +393,10 @@
 
     function answer(choice) {
       answers[currentQuestion] = choice;
-      showQuestion(); // Zeige die Auswahl kurz an
-      
-      // Nach kurzer Verzögerung automatisch weiter
-      setTimeout(() => {
-        nextQuestion();
-      }, 100);
-    }
-
-    function answerAndNext(choice) {
-      answers[currentQuestion] = choice;
-      showQuestion(); // Zeige die Auswahl kurz an
-      
-      // Nach kurzer Verzögerung automatisch weiter
-      setTimeout(() => {
-        nextQuestion();
-      }, 100);
+      nextQuestion();
     }
 
     function nextQuestion() {
-      // Nur weiter wenn eine Antwort gegeben wurde
-      if (answers[currentQuestion] === null) {
-        return; // Keine Antwort gegeben, nicht weitergehen
-      }
-      
       if (currentQuestion < questions.length - 1) {
         currentQuestion++;
         showQuestion();
@@ -408,11 +446,18 @@
       
       sortedParties.forEach(([partyName, percentage]) => {
         const partyId = partyName.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+        // Verwende den JSON-Key für Logo-Pfad
+        const partyKey = window.partyKeys[partyName];
+        const logoPath = partyKey + '.png';
         resultsHTML += `
           <div class="party-result">
             <div class="party-name">
-              ${partyName}
-              <button class="details-button" onclick="toggleDetails('${partyId}')">Details anzeigen</button>
+              <img src="${logoPath}" alt="${partyName} Logo" class="party-logo" onerror="this.style.display='none'">
+              <span>${partyName}</span>
+              <button class="details-button" onclick="toggleDetails('${partyId}')">
+                <span>Details</span>
+                <span class="arrow" id="arrow-${partyId}">▼</span>
+              </button>
             </div>
             <div class="progress-bar">
               <div class="progress-fill" style="width: ${percentage}%">${percentage}%</div>
@@ -442,8 +487,8 @@
           detailsHTML += `
             <div class="question-detail">
               <div class="question-text">${i + 1}. ${questions[i]}</div>
-              <div class="answer-badges">
-                <span class="user-answer user-${userAnswer}">
+              <div>
+                <span class="user-answer" style="background: ${isMatch ? '#e8f5e8' : '#ffe8e8'};">
                   Sie: ${getAnswerText(userAnswer)}
                 </span>
                 <span class="position-badge position-${partyPosition}">
@@ -469,33 +514,64 @@
 
     function toggleDetails(partyId) {
       const details = document.getElementById(`details-${partyId}`);
-      const button = details.previousElementSibling.previousElementSibling.querySelector('.details-button');
+      const arrow = document.getElementById(`arrow-${partyId}`);
       
       if (details.style.display === 'none' || details.style.display === '') {
         details.style.display = 'block';
-        button.textContent = 'Details ausblenden';
+        arrow.textContent = '▲';
       } else {
         details.style.display = 'none';
-        button.textContent = 'Details anzeigen';
+        arrow.textContent = '▼';
       }
     }
 
     function restart() {
       currentQuestion = 0;
       answers.fill(null);
-      document.querySelector("main").innerHTML = `
-        <h2 id="question"></h2>
-        <div class="buttons">
-          <button onclick="answer('agree')" ondblclick="answerAndNext('agree')">Stimme zu</button>
-          <button onclick="answer('neutral')" ondblclick="answerAndNext('neutral')">Enthaltung</button>
-          <button onclick="answer('disagree')" ondblclick="answerAndNext('disagree')">Stimme nicht zu</button>
+      
+      // Zeige wieder den Intro-Screen
+      const main = document.querySelector("main");
+      main.innerHTML = `
+        <div id="intro-screen">
+          <h2>Willkommen zum Wenwähli</h2>
+          <div style="text-align: left; max-width: 450px; margin: 0 auto; line-height: 1.5;">
+            <p style="color: white; margin-bottom: 1.5rem; font-size: 1.1rem;">
+              Finden Sie heraus, welche Parteien ähnliche Positionen vertreten wie Sie.
+            </p>
+            
+            <p style="color: white; margin-bottom: 1.5rem;">
+              <strong><span id="question-count">${questions.length}</span> Fragen</strong> zu politischen Themen.<br>
+              Antworten Sie mit "Stimme zu", "Enthaltung" oder "Stimme nicht zu".
+            </p>
+            
+            <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px; margin-bottom: 2rem;">
+              <p style="color: white; margin: 0; font-size: 0.9rem;">
+                <strong>Hinweis:</strong> Dies ist keine Wahlempfehlung, sondern eine Hilfestellung. 
+                Informieren Sie sich zusätzlich über die Parteiprogramme.
+              </p>
+            </div>
+          </div>
+          
+          <button onclick="startQuestions()" style="background: black; color: white; font-size: 1.1rem; padding: 1rem 2rem;">
+            Jetzt starten
+          </button>
         </div>
-        <div class="nav-buttons">
-          <button onclick="previousQuestion()">← Zurück</button>
-          <button onclick="nextQuestion()">Weiter →</button>
+
+        <div id="question-screen" style="display: none;">
+          <h2 id="question"></h2>
+
+          <div class="buttons">
+            <button onclick="answer('agree')">Stimme zu</button>
+            <button onclick="answer('neutral')">Enthaltung</button>
+            <button onclick="answer('disagree')">Stimme nicht zu</button>
+          </div>
+
+          <div class="nav-buttons">
+            <button onclick="previousQuestion()">← Zurück</button>
+            <button onclick="nextQuestion()">Weiter →</button>
+          </div>
         </div>
       `;
-      showQuestion();
     }
 
     // Starte die Anwendung
