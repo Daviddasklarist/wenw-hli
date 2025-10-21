@@ -507,23 +507,18 @@
           const userAnswer = answers[i];
           const partyPosition = parties[partyName][i];
           
-          // Match-Logik für Details
-          let matchType = '';
+          // Farblogik basierend auf eigener Antwort
           let matchColor = '';
-          let points = 0;
           
-          if (userAnswer === partyPosition) {
-            matchType = 'Volle Übereinstimmung (2 Punkte)';
+          if (userAnswer === 'agree') {
+            // Ja = grün
             matchColor = '#4CAF50';
-            points = 2;
-          } else if (userAnswer === 'neutral' || partyPosition === 'neutral') {
-            matchType = 'Teilweise Übereinstimmung (1 Punkt)';
+          } else if (userAnswer === 'neutral') {
+            // Egal = gelb
             matchColor = '#FFC107';
-            points = 1;
-          } else {
-            matchType = 'Keine Übereinstimmung (0 Punkte)';
+          } else if (userAnswer === 'disagree') {
+            // Nein = rot
             matchColor = '#F44336';
-            points = 0;
           }
           
           detailsHTML += `

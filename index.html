@@ -482,17 +482,17 @@
           const userAnswer = answers[i];
           const partyPosition = parties[partyName][i];
           
-          // Match-Logik für Details mit Farben
+          // Farblogik basierend auf eigener Antwort
           let matchColor = '';
           
-          if (userAnswer === partyPosition) {
-            // Volle Übereinstimmung = grün
+          if (userAnswer === 'agree') {
+            // Ja = grün
             matchColor = '#4CAF50';
-          } else if (userAnswer === 'neutral' || partyPosition === 'neutral') {
-            // Teilweise Übereinstimmung = gelb
+          } else if (userAnswer === 'neutral') {
+            // Egal = gelb
             matchColor = '#FFC107';
-          } else {
-            // Keine Übereinstimmung = rot
+          } else if (userAnswer === 'disagree') {
+            // Nein = rot
             matchColor = '#F44336';
           }
           
