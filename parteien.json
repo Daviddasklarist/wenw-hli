@@ -1,0 +1,26 @@
+{
+  "KONSERVATIVE": {
+    "name": "Die Konservativen",
+    "positionen": ["disagree", "agree", "neutral", "disagree", "neutral", "agree", "agree", "neutral", "neutral", "agree", "agree", "agree", "agree", "neutral", "disagree", "agree", "agree", "neutral", "agree", "agree", "agree", "agree", "agree", "agree", "agree", "neutral", "agree", "agree", "neutral", "agree"]
+  },
+  "SOZIALE": {
+    "name": "Die Sozialen", 
+    "positionen": ["agree", "agree", "agree", "agree", "agree", "neutral", "agree", "agree", "agree", "neutral", "agree", "neutral", "agree", "agree", "agree", "disagree", "agree", "agree", "agree", "neutral", "neutral", "agree", "agree", "neutral", "agree", "agree", "agree", "agree", "agree", "agree"]
+  },
+  "OEKOS": {
+    "name": "Die Ökos",
+    "positionen": ["agree", "agree", "agree", "agree", "agree", "disagree", "agree", "agree", "agree", "disagree", "neutral", "neutral", "agree", "neutral", "agree", "disagree", "agree", "agree", "agree", "neutral", "disagree", "agree", "agree", "neutral", "agree", "agree", "agree", "agree", "agree", "agree"]
+  },
+  "WIRTSCHAFTSPARTEI": {
+    "name": "Die Wirtschaftspartei",
+    "positionen": ["neutral", "neutral", "neutral", "neutral", "neutral", "agree", "neutral", "neutral", "neutral", "neutral", "agree", "neutral", "agree", "agree", "disagree", "agree", "neutral", "neutral", "neutral", "agree", "agree", "neutral", "neutral", "agree", "agree", "disagree", "neutral", "neutral", "neutral", "neutral"]
+  },
+  "BUERGERLISTE": {
+    "name": "Bürgerliste Augsburg",
+    "positionen": ["agree", "agree", "agree", "agree", "agree", "disagree", "agree", "agree", "agree", "disagree", "agree", "disagree", "agree", "agree", "agree", "disagree", "agree", "agree", "agree", "neutral", "disagree", "agree", "agree", "disagree", "agree", "agree", "agree", "agree", "agree", "agree"]
+  },
+  "FASCHOS": {
+    "name": "Die Faschos",
+    "positionen": ["disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree"]
+  }
+}

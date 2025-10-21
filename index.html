@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radio Augsburg - Wenwähli</title>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background: #f8f8f8;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 1.5rem 1rem;
+    }
+
+    header img {
+      height: 60px;
+      display: block;
+      margin: 0 auto 10px;
+    }
+
+    main {
+      max-width: 600px;
+      margin: 2rem auto;
+      background: #e30011;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 2rem;
+      text-align: center;
+      color: white;
+    }
+
+    h2 {
+      color: white;
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      flex: 1;
+      border: 2px solid #333;
+      border-radius: 8px;
+      padding: 1.2rem 1rem;
+      cursor: pointer;
+      font-size: 1rem;
+      background: white;
+      color: black;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .buttons button.selected {
+      background: #333 !important;
+      color: white !important;
+      border: 3px solid #fff !important;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+    }
+
+    .nav-buttons button {
+      background: black;
+      color: white;
+    }
+
+    .nav-buttons button:hover {
+      background: #333;
+    }
+
+    footer {
+      text-align: center;
+      margin: 2rem 0;
+      color: #777;
+      font-size: 0.9rem;
+    }
+
+    .party-result {
+      background: white;
+      margin: 1rem 0;
+      padding: 1rem;
+      border-radius: 8px;
+      border: 2px solid #333;
+    }
+
+    .party-name {
+      font-weight: bold;
+      color: black;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-bar {
+      background: #ddd;
+      border-radius: 10px;
+      height: 20px;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #e30011 0%, #ff6b6b 100%);
+      transition: width 0.8s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .details-button {
+      background: #333;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin-left: 1rem;
+    }
+
+    .details-button:hover {
+      background: #555;
+    }
+
+    .party-details {
+      display: none;
+      margin-top: 1rem;
+      background: #f5f5f5;
+      padding: 1rem;
+      border-radius: 8px;
+      color: black;
+    }
+
+    .question-detail {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid #ddd;
+      min-height: 50px;
+    }
+
+    .question-detail:last-child {
+      border-bottom: none;
+    }
+
+    .question-text {
+      font-size: 0.9rem;
+      line-height: 1.3;
+    }
+
+    .answer-badges {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .position-badge, .user-answer {
+      padding: 0.4rem 0.8rem;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      white-space: nowrap;
+      min-width: 120px;
+      text-align: center;
+      display: inline-block;
+    }
+
+    .position-agree {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .position-neutral {
+      background: #FFC107;
+      color: black;
+    }
+
+    .position-disagree {
+      background: #F44336;
+      color: white;
+    }
+
+    .user-answer {
+      border: 2px solid #333;
+      background: white;
+      color: black;
+    }
+
+    .user-answer.user-agree {
+      background: #4CAF50;
+      color: white;
+      border: 2px solid #4CAF50;
+    }
+
+    .user-answer.user-neutral {
+      background: #FFC107;
+      color: black;
+      border: 2px solid #FFC107;
+    }
+
+    .user-answer.user-disagree {
+      background: #F44336;
+      color: white;
+      border: 2px solid #F44336;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="logo.png" alt="Senderlogo">
+    <h1>Radio Augsburg - Wenwähli</h1>
+  </header>
+
+  <main>
+    <h2 id="question"></h2>
+
+    <div class="buttons">
+      <button onclick="answer('agree')" ondblclick="answerAndNext('agree')">Stimme zu</button>
+      <button onclick="answer('neutral')" ondblclick="answerAndNext('neutral')">Enthaltung</button>
+      <button onclick="answer('disagree')" ondblclick="answerAndNext('disagree')">Stimme nicht zu</button>
+    </div>
+
+    <div class="nav-buttons">
+      <button onclick="previousQuestion()">← Zurück</button>
+      <button onclick="nextQuestion()">Weiter →</button>
+    </div>
+
+  </main>
+
+  <footer>
+    © 2025 Radio Augsburg – Wenwähli (Testversion)
+  </footer>
+
+  <script>
+    let questions = [];
+    let parties = {};
+    let currentQuestion = 0;
+    let answers = [];
+
+    // Lade Daten aus JSON-Dateien
+    async function loadData() {
+      try {
+        // Lade Fragen
+        const fragenResponse = await fetch('fragen.json');
+        questions = await fragenResponse.json();
+        
+        // Lade Parteien
+        const parteienResponse = await fetch('parteien.json');
+        const parteienData = await parteienResponse.json();
+        
+        // Konvertiere Parteien-Format
+        parties = {};
+        Object.keys(parteienData).forEach(key => {
+          parties[parteienData[key].name] = parteienData[key].positionen;
+        });
+        
+        // Initialisiere Antworten-Array
+        answers = new Array(questions.length).fill(null);
+        
+        // Starte Wahlhilfe
+        showQuestion();
+        
+      } catch (error) {
+        console.error('Fehler beim Laden der Daten:', error);
+        // Fallback: Verwende eingebaute Daten
+        questions = [
+          "Die Maximilianstraße sollte dauerhaft autofrei werden.",
+          "Augsburg braucht mehr Tempo-30-Zonen in Wohngebieten.",
+          "Die Stadt soll mehr in den Ausbau des Radwegenetzes investieren."
+        ];
+        parties = {
+          "CSU": ["disagree", "agree", "neutral"],
+          "SPD": ["agree", "agree", "agree"],
+          "GRÜNE": ["agree", "agree", "agree"]
+        };
+        answers = new Array(questions.length).fill(null);
+        showQuestion();
+      }
+    }
+
+    function showQuestion() {
+      document.getElementById("question").textContent =
+        `${currentQuestion + 1}. ${questions[currentQuestion]}`;
+      
+      // Entferne alle vorherigen Markierungen
+      document.querySelectorAll('.buttons button').forEach(btn => {
+        btn.classList.remove('selected');
+      });
+      
+      // Markiere die bereits gegebene Antwort, falls vorhanden
+      const currentAnswer = answers[currentQuestion];
+      if (currentAnswer) {
+        const buttons = document.querySelectorAll('.buttons button');
+        if (currentAnswer === 'agree') {
+          buttons[0].classList.add('selected');
+        } else if (currentAnswer === 'neutral') {
+          buttons[1].classList.add('selected');
+        } else if (currentAnswer === 'disagree') {
+          buttons[2].classList.add('selected');
+        }
+      }
+    }
+
+    function answer(choice) {
+      answers[currentQuestion] = choice;
+      showQuestion(); // Zeige die Auswahl kurz an
+      
+      // Nach kurzer Verzögerung automatisch weiter
+      setTimeout(() => {
+        nextQuestion();
+      }, 100);
+    }
+
+    function answerAndNext(choice) {
+      answers[currentQuestion] = choice;
+      showQuestion(); // Zeige die Auswahl kurz an
+      
+      // Nach kurzer Verzögerung automatisch weiter
+      setTimeout(() => {
+        nextQuestion();
+      }, 100);
+    }
+
+    function nextQuestion() {
+      // Nur weiter wenn eine Antwort gegeben wurde
+      if (answers[currentQuestion] === null) {
+        return; // Keine Antwort gegeben, nicht weitergehen
+      }
+      
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        showQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function previousQuestion() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        showQuestion();
+      }
+    }
+
+    function showResults() {
+      const main = document.querySelector("main");
+      
+      // Berechne Übereinstimmung mit jeder Partei
+      const partyMatches = {};
+      
+      Object.keys(parties).forEach(partyName => {
+        let matches = 0;
+        let totalAnswered = 0;
+        
+        for (let i = 0; i < answers.length; i++) {
+          if (answers[i] !== null) {
+            totalAnswered++;
+            if (answers[i] === parties[partyName][i]) {
+              matches += 2; // Volle Übereinstimmung
+            } else if (answers[i] === "neutral" || parties[partyName][i] === "neutral") {
+              matches += 1; // Teilweise Übereinstimmung bei Enthaltung
+            }
+          }
+        }
+        
+        const percentage = totalAnswered > 0 ? Math.round((matches / (totalAnswered * 2)) * 100) : 0;
+        partyMatches[partyName] = percentage;
+      });
+      
+      // Sortiere Parteien nach Übereinstimmung
+      const sortedParties = Object.entries(partyMatches)
+        .sort(([,a], [,b]) => b - a);
+      
+      let resultsHTML = '<h2>Ihr Ergebnis</h2>';
+      resultsHTML += '<p style="color: white; margin-bottom: 1.5rem;">Übereinstimmung mit den Parteien:</p>';
+      
+      sortedParties.forEach(([partyName, percentage]) => {
+        const partyId = partyName.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+        resultsHTML += `
+          <div class="party-result">
+            <div class="party-name">
+              ${partyName}
+              <button class="details-button" onclick="toggleDetails('${partyId}')">Details anzeigen</button>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: ${percentage}%">${percentage}%</div>
+            </div>
+            <div class="party-details" id="details-${partyId}">
+              ${generatePartyDetails(partyName)}
+            </div>
+          </div>
+        `;
+      });
+      
+      resultsHTML += '<button onclick="restart()" style="background: black; color: white; margin-top: 1rem;">Nochmal starten</button>';
+      
+      main.innerHTML = resultsHTML;
+    }
+
+    function generatePartyDetails(partyName) {
+      let detailsHTML = '<h4 style="margin-top: 0; color: black;">Positionen im Detail:</h4>';
+      
+      for (let i = 0; i < questions.length; i++) {
+        if (answers[i] !== null) {
+          const userAnswer = answers[i];
+          const partyPosition = parties[partyName][i];
+          const isMatch = userAnswer === partyPosition || 
+                         (userAnswer === "neutral" || partyPosition === "neutral");
+          
+          detailsHTML += `
+            <div class="question-detail">
+              <div class="question-text">${i + 1}. ${questions[i]}</div>
+              <div class="answer-badges">
+                <span class="user-answer user-${userAnswer}">
+                  Sie: ${getAnswerText(userAnswer)}
+                </span>
+                <span class="position-badge position-${partyPosition}">
+                  Partei: ${getAnswerText(partyPosition)}
+                </span>
+              </div>
+            </div>
+          `;
+        }
+      }
+      
+      return detailsHTML;
+    }
+
+    function getAnswerText(answer) {
+      switch(answer) {
+        case 'agree': return 'Stimme zu';
+        case 'neutral': return 'Enthaltung';
+        case 'disagree': return 'Stimme nicht zu';
+        default: return 'Unbekannt';
+      }
+    }
+
+    function toggleDetails(partyId) {
+      const details = document.getElementById(`details-${partyId}`);
+      const button = details.previousElementSibling.previousElementSibling.querySelector('.details-button');
+      
+      if (details.style.display === 'none' || details.style.display === '') {
+        details.style.display = 'block';
+        button.textContent = 'Details ausblenden';
+      } else {
+        details.style.display = 'none';
+        button.textContent = 'Details anzeigen';
+      }
+    }
+
+    function restart() {
+      currentQuestion = 0;
+      answers.fill(null);
+      document.querySelector("main").innerHTML = `
+        <h2 id="question"></h2>
+        <div class="buttons">
+          <button onclick="answer('agree')" ondblclick="answerAndNext('agree')">Stimme zu</button>
+          <button onclick="answer('neutral')" ondblclick="answerAndNext('neutral')">Enthaltung</button>
+          <button onclick="answer('disagree')" ondblclick="answerAndNext('disagree')">Stimme nicht zu</button>
+        </div>
+        <div class="nav-buttons">
+          <button onclick="previousQuestion()">← Zurück</button>
+          <button onclick="nextQuestion()">Weiter →</button>
+        </div>
+      `;
+      showQuestion();
+    }
+
+    // Starte die Anwendung
+    loadData();
+  </script>
+</body>
+</html>
