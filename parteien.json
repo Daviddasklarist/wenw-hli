@@ -19,8 +19,9 @@
     "name": "Bürgerliste Augsburg",
     "positionen": ["agree", "agree", "agree", "agree", "agree", "disagree", "agree", "agree", "agree", "disagree", "agree", "disagree", "agree", "agree", "agree", "disagree", "agree", "agree", "agree", "neutral", "disagree", "agree", "agree", "disagree", "agree", "agree", "agree", "agree", "agree", "agree"]
   },
-  "faschos": {
-    "name": "Die Faschos",
+  "schwierige": {
+    "name": "Die Schwierigen",
     "positionen": ["disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree", "disagree"]
   }
+
 }
