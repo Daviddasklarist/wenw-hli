@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radio Augsburg - Wenwähli - Antworten bearbeiten</title>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background: #f8f8f8;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 1.5rem 1rem;
+    }
+
+    header img {
+      height: 60px;
+      display: block;
+      margin: 0 auto 10px;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: #e30011;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 2rem;
+      text-align: center;
+      color: white;
+    }
+
+    h2 {
+      color: white;
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      flex: 1;
+      border: 2px solid #333;
+      border-radius: 8px;
+      padding: 1rem;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+
+    .buttons button:nth-child(1) {
+      background: white;
+      color: black;
+    }
+
+    .buttons button:nth-child(1):hover {
+      background: #f0f0f0;
+    }
+
+    .buttons button:nth-child(2) {
+      background: white;
+      color: black;
+    }
+
+    .buttons button:nth-child(2):hover {
+      background: #f0f0f0;
+    }
+
+    .buttons button:nth-child(3) {
+      background: white;
+      color: black;
+    }
+
+    .buttons button:nth-child(3):hover {
+      background: #f0f0f0;
+    }
+
+    .buttons button.selected {
+      background: #333 !important;
+      color: white !important;
+      border: 3px solid #fff !important;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+      gap: 1rem;
+    }
+
+    .nav-buttons button {
+      background: black;
+      color: white;
+      flex: 0 0 45%;
+    }
+
+    .nav-buttons button:hover {
+      background: #333;
+    }
+
+    .question-item {
+      background: white;
+      margin: 1rem 0;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 2px solid #333;
+      text-align: left;
+      color: black;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .question-text {
+      font-weight: bold;
+      font-size: 1rem;
+      color: #333;
+      flex: 1;
+      margin-right: 1rem;
+    }
+
+    .answer-dropdown {
+      position: relative;
+      min-width: 180px;
+    }
+
+    .dropdown-select {
+      width: 100%;
+      padding: 0.8rem 2.5rem 0.8rem 1rem;
+      border: 2px solid #333;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 0.9rem;
+      cursor: pointer;
+      background: white;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+
+    .dropdown-select:focus {
+      outline: none;
+      border-color: #666;
+      box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    }
+
+    .dropdown-arrow {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      font-size: 0.8rem;
+      color: #333;
+    }
+
+    .dropdown-select.agree {
+      background: #4CAF50;
+      color: white;
+      border-color: #4CAF50;
+    }
+
+    .dropdown-select.neutral {
+      background: #FFC107;
+      color: black;
+      border-color: #FFC107;
+    }
+
+    .dropdown-select.disagree {
+      background: #F44336;
+      color: white;
+      border-color: #F44336;
+    }
+
+    .dropdown-select.unanswered {
+      background: #ddd;
+      color: #666;
+      border-color: #999;
+    }
+
+    /* Dropdown-Optionen einfärben */
+    .dropdown-select option[value="unanswered"] {
+      background: #ddd;
+      color: #666;
+    }
+
+    .dropdown-select option[value="agree"] {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .dropdown-select option[value="neutral"] {
+      background: #FFC107;
+      color: black;
+    }
+
+    .dropdown-select option[value="disagree"] {
+      background: #F44336;
+      color: white;
+    }
+
+
+
+    .mailto-button {
+      background: black;
+      color: white;
+      font-size: 1.2rem;
+      padding: 1.5rem 3rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 2rem;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+
+    .mailto-button:hover {
+      background: #333;
+    }
+
+    .info-box {
+      background: rgba(255,255,255,0.1);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+
+    footer {
+      text-align: center;
+      margin: 2rem 0;
+      color: #777;
+      font-size: 0.9rem;
+    }
+
+    .progress-info {
+      background: rgba(255,255,255,0.2);
+      padding: 0.8rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="logo.png" alt="Senderlogo">
+    <h1>Radio Augsburg - Wenwähli</h1>
+  </header>
+
+  <main>
+    <div id="intro-screen">
+      <h2>Willkommen zum Wenwähli</h2>
+      <div style="text-align: left; max-width: 450px; margin: 0 auto; line-height: 1.5;">
+        <p style="color: white; margin-bottom: 1.5rem; font-size: 1.1rem;">
+          Beantworten Sie alle Fragen und senden Sie Ihre Antworten per E-Mail.
+        </p>
+        
+        <div style="background: rgba(255,255,255,0.9); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+          <label for="party-name" style="color: #333; font-weight: bold; display: block; margin-bottom: 0.5rem;">
+            Name Ihrer Partei/Liste:
+          </label>
+          <input type="text" id="party-name" placeholder="Hier eintragen" 
+                 style="width: 100%; padding: 0.8rem; border: 2px solid #333; border-radius: 4px; font-size: 1rem; box-sizing: border-box;">
+        </div>
+        
+        <p style="color: white; margin-bottom: 1.5rem;">
+          <strong><span id="question-count">30</span> Fragen</strong> zu politischen Themen.<br>
+          Antworten Sie mit "Stimme zu", "Enthaltung" oder "Stimme nicht zu".
+        </p>
+        
+        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px; margin-bottom: 2rem;">
+          <p style="color: white; margin: 0; font-size: 0.9rem;">
+            <strong>Hinweis:</strong> Am Ende können Sie Ihre Antworten nochmal ändern und per E-Mail einreichen.
+          </p>
+        </div>
+      </div>
+      
+      <button onclick="startQuestions()" style="background: black; color: white; font-size: 1.1rem; padding: 1rem 2rem;">
+        Jetzt starten
+      </button>
+    </div>
+
+    <div id="question-screen" style="display: none;">
+      <h2 id="question"></h2>
+
+      <div class="buttons">
+        <button onclick="answer('agree')">Stimme zu</button>
+        <button onclick="answer('neutral')">Enthaltung</button>
+        <button onclick="answer('disagree')">Stimme nicht zu</button>
+      </div>
+
+      <div class="nav-buttons">
+        <button onclick="previousQuestion()">← Zurück</button>
+        <button onclick="nextQuestion()">Weiter →</button>
+      </div>
+    </div>
+
+    <div id="edit-screen" style="display: none;">
+      <h2>Die Antworten <span id="party-name-display"></span></h2>
+      
+      <div class="info-box">
+        <p style="color: white; margin: 0; font-size: 0.95rem;">
+          <strong>Hier können Sie Ihre Antworten nachträglich ändern.</strong><br>
+          Klicken Sie auf die gewünschte Antwort bei jeder Frage. Am Ende können Sie Ihre Antworten per E-Mail versenden.
+        </p>
+      </div>
+
+      <div class="progress-info">
+        <span id="answered-count">0</span> von <span id="total-count">30</span> Fragen beantwortet
+      </div>
+
+      <div id="questions-container">
+        <!-- Fragen werden hier dynamisch eingefügt -->
+      </div>
+
+      <a href="#" id="mailto-link" class="mailto-button">
+        📧 Antworten per E-Mail versenden
+      </a>
+    </div>
+
+  </main>
+
+  <footer>
+    © 2025 Radio Augsburg – Wenwähli
+  </footer>
+
+  <script>
+    let questions = [];
+    let answers = [];
+    let currentQuestion = 0;
+
+    // Lade Daten aus JSON-Datei
+    async function loadData() {
+      try {
+        const fragenResponse = await fetch('fragen.json');
+        questions = await fragenResponse.json();
+        
+        // Initialisiere Antworten-Array
+        answers = new Array(questions.length).fill(null);
+        
+        // Zeige Anzahl der Fragen im Intro
+        document.getElementById('question-count').textContent = questions.length;
+        
+      } catch (error) {
+        console.error('Fehler beim Laden der Daten:', error);
+        // Fallback: Verwende eingebaute Daten
+        questions = [
+          "Die Maximilianstraße sollte dauerhaft autofrei werden.",
+          "Augsburg braucht mehr Tempo-30-Zonen in Wohngebieten.",
+          "Die Stadt soll mehr in den Ausbau des Radwegenetzes investieren."
+        ];
+        answers = new Array(questions.length).fill(null);
+        document.getElementById('question-count').textContent = questions.length;
+      }
+    }
+
+    function startQuestions() {
+      const partyName = document.getElementById('party-name').value.trim();
+      
+      if (!partyName) {
+        alert('Bitte geben Sie den Namen Ihrer Partei/Liste ein.');
+        return;
+      }
+      
+      document.getElementById('intro-screen').style.display = 'none';
+      document.getElementById('question-screen').style.display = 'block';
+      showQuestion();
+    }
+
+    function showQuestion() {
+      document.getElementById("question").textContent =
+        `${currentQuestion + 1}. ${questions[currentQuestion]}`;
+      
+      // Entferne alle vorherigen Markierungen
+      document.querySelectorAll('.buttons button').forEach(btn => {
+        btn.classList.remove('selected');
+      });
+      
+      // Markiere die bereits gegebene Antwort, falls vorhanden
+      const currentAnswer = answers[currentQuestion];
+      if (currentAnswer) {
+        const buttons = document.querySelectorAll('.buttons button');
+        if (currentAnswer === 'agree') {
+          buttons[0].classList.add('selected');
+        } else if (currentAnswer === 'neutral') {
+          buttons[1].classList.add('selected');
+        } else if (currentAnswer === 'disagree') {
+          buttons[2].classList.add('selected');
+        }
+      }
+    }
+
+    function answer(choice) {
+      answers[currentQuestion] = choice;
+      nextQuestion();
+    }
+
+    function nextQuestion() {
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        showQuestion();
+      } else {
+        showEditScreen();
+      }
+    }
+
+    function previousQuestion() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        showQuestion();
+      }
+    }
+
+    function showEditScreen() {
+      document.getElementById('question-screen').style.display = 'none';
+      document.getElementById('edit-screen').style.display = 'block';
+      
+      // Zeige Parteiname
+      const partyName = document.getElementById('party-name').value.trim();
+      document.getElementById('party-name-display').textContent = partyName;
+      
+      // Zeige Anzahl der Fragen
+      document.getElementById('total-count').textContent = questions.length;
+      
+      // Generiere Fragenliste
+      generateQuestionsList();
+    }
+
+    function generateQuestionsList() {
+      const container = document.getElementById('questions-container');
+      let html = '';
+      
+      for (let i = 0; i < questions.length; i++) {
+        const answer = answers[i] || 'unanswered';
+        let answerClass = answer === 'unanswered' ? 'unanswered' : answer;
+        
+        html += `
+          <div class="question-item">
+            <div class="question-text">${i + 1}. ${questions[i]}</div>
+            <div class="answer-dropdown">
+              <select class="dropdown-select ${answerClass}" onchange="changeAnswer(${i}, this.value)">
+                <option value="unanswered" ${answer === null ? 'selected' : ''}>Nicht beantwortet</option>
+                <option value="agree" ${answer === 'agree' ? 'selected' : ''}>Stimme zu</option>
+                <option value="neutral" ${answer === 'neutral' ? 'selected' : ''}>Enthaltung</option>
+                <option value="disagree" ${answer === 'disagree' ? 'selected' : ''}>Stimme nicht zu</option>
+              </select>
+              <div class="dropdown-arrow">▼</div>
+            </div>
+          </div>
+        `;
+      }
+      
+      container.innerHTML = html;
+      updateProgress();
+      updateMailtoLink();
+    }
+
+    function changeAnswer(questionIndex, newAnswer) {
+      // Setze Antwort (oder auf null falls "unanswered")
+      answers[questionIndex] = newAnswer === 'unanswered' ? null : newAnswer;
+      
+      // Update das Dropdown-Design
+      const dropdown = document.querySelectorAll('.dropdown-select')[questionIndex];
+      dropdown.className = `dropdown-select ${newAnswer}`;
+      
+      // Update Progress und Mailto-Link
+      updateProgress();
+      updateMailtoLink();
+    }
+
+    function updateProgress() {
+      const answeredCount = answers.filter(answer => answer !== null).length;
+      document.getElementById('answered-count').textContent = answeredCount;
+    }
+
+    function updateMailtoLink() {
+      const emailAddress = 'ene.mene.muh-und.raus.bist.du@outlook.de';
+      const partyName = document.getElementById('party-name').value.trim();
+      const subject = `Wenwähli - Antworten ${partyName}`;
+      
+      let body = `Hallo,\n\nhier sind die "${partyName}" Antworten zum Wenwähli:\n\n`;
+      
+      for (let i = 0; i < questions.length; i++) {
+        const answer = answers[i];
+        let answerText = 'Nicht beantwortet';
+        
+        if (answer === 'agree') answerText = 'Stimme zu';
+        else if (answer === 'neutral') answerText = 'Enthaltung';
+        else if (answer === 'disagree') answerText = 'Stimme nicht zu';
+        
+        body += `${i + 1}. ${questions[i]}\n`;
+        body += `   Antwort: ${answerText}\n\n`;
+      }
+      
+      // JSON-Format für Copy-Paste hinzufügen
+      body += '\n--- BITTE NICHT ÄNDERN (JSON-Format): ---\n';
+      body += '"positionen": [';
+      
+      const jsonAnswers = [];
+      for (let i = 0; i < questions.length; i++) {
+        const answer = answers[i] || 'neutral'; // Default zu neutral falls nicht beantwortet
+        jsonAnswers.push(`"${answer}"`);
+      }
+      
+      body += jsonAnswers.join(', ');
+      body += ']\n\n';
+      
+      body += 'Viele Grüße!';
+      
+      // URL-encode für Mailto-Link
+      const encodedSubject = encodeURIComponent(subject);
+      const encodedBody = encodeURIComponent(body);
+      
+      const mailtoLink = `mailto:${emailAddress}?subject=${encodedSubject}&body=${encodedBody}`;
+      document.getElementById('mailto-link').href = mailtoLink;
+    }
+
+    function getAnswerText(answer) {
+      switch(answer) {
+        case 'agree': return 'Stimme zu';
+        case 'neutral': return 'Enthaltung';
+        case 'disagree': return 'Stimme nicht zu';
+        default: return 'Nicht beantwortet';
+      }
+    }
+
+    // Starte die Anwendung
+    loadData();
+  </script>
+</body>
+</html>
